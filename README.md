@@ -24,9 +24,9 @@
   - SQLite
 
 ## Main Feature
-- 유형별 테스트를 통해 사용자의 취향을 반영하고 게임 추천
+- 유형별 테스트를 통해 사용자의 취향을 반영하고 게임 추천<br>
   <p>
-  <img src="https://github.com/user-attachments/assets/f74f45bb-b86b-4e52-840f-9bd39602f01a" width="60%">
+  <img src="./example/profiles.jpg" width="50%">
   </p>
 - 게임과 기기 대여와 예약
 - 유형별 게시판 커뮤니티
