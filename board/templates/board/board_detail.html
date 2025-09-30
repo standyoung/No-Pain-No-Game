@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}NoPainNoGame Board Detail{% endblock %}
+{% block script %}
+<script>
+$(document).ready(function() {
+    $('select[name=category]').change(function () {
+        category = $('select[name=category]').val();
+    });
+});
+</script>
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    .container{
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    ul{
+        margin: 0;
+    }
+    .post_detail .title{
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0;
+    }
+    .post_detail{
+        min-height: 500px;
+        height: 100%;
+        position: relative;
+        width: 900px;
+        margin: 0 auto;
+    }
+    .post_detail p{
+        margin: 0;
+    }
+    .post_header p{
+        margin: 17px 0;
+    }
+    .board_content{
+        width: 100%;
+        padding: 10px;
+    }
+    .board_content p{
+        margin: 8px 0;
+    }
+    .options{
+        position: absolute;
+        bottom: -80px;
+        right: 10px;
+       text-align: right;
+    }
+    .comment_box{
+        width: 900px;
+        margin: 0 auto;
+        margin-top: 150px;
+        margin-bottom: 10px;
+    }
+
+    .comment_list{
+        font-size: 14px;
+        width: 900px;
+        margin: 0 auto;
+        min-height: 60px;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        position: relative;
+        border-bottom: 1px solid lightgray;
+    }
+    .comment_list:last-child{
+        border: 0;
+    }
+    .comment_delete{
+        position: absolute;
+        right: -30px;
+        top: 20px;
+    }
+    .comment_list div{
+        display: flex;
+        align-items: center;
+        min-height: 40px;
+    }
+    .comment_list .name{
+        width: 80px;
+    }
+    .comment_list .comment{
+        font-size: 14px;
+        width: 600px;
+    }
+    .comment_list .date{
+        width: 155px;
+        font-size: 11px;
+    }
+    .comment_write{
+        width: 900px;
+        margin: 0 auto;
+        height: 70px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+    .comment_write div{
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        height: 50px;
+    }
+    .comment_write textarea{
+        width: 700px;
+        height: 50px;
+    }
+    .comment_write input[type='submit']{
+        width: 60px;
+        height: 24px;
+    }
+
+    /*버튼 css*/
+    .btn {
+        position: relative;
+        border: 0;
+        padding: 4px 7px;
+        width: 55px;
+        height: 35px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .btn:active{
+        bottom: -4px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="post_detail">
+    <div class="post_header">
+        <p class="title">{{post.postname}}</p>
+        <hr>
+        <p><span style="display: inline-block; width: 90px;">작성자</span><strong>{{post.member_id}}</strong></p>
+        <hr>
+        <p><span style="display: inline-block; width: 90px;">카테고리</span><strong>{% if post.p_type_id == 1 %}날쌘돌이 구름이{% elif post.p_type_id == 2 %}심플프리덤 감자{% elif post.p_type_id == 3 %}두뇌풀가동 전사{% elif post.p_type_id == 4 %}재기발랄 모험가{% endif %}</strong></p>
+        <hr>
+        <div class="board_content">{{post.contents|safe}}</div>
+    </div>
+    <div class="options">
+        <p>{{post.post_date}}</p>
+        <br>
+        <a href="{% url 'board:board' %}" class="btn green rounded">목록으로</a>
+        {% if post.member_id == user %}
+            <a class="btn blue rounded" href="{% url 'board:board_edit' post.id %}">수정</a>
+            <a class="btn red rounded" href="{% url 'board:board_delete' post.id %}">삭제</a>
+            {% else %}
+        {% endif %}
+    </div>
+</div>
+<div class="comment_box">
+    <hr>
+    {% if comment_list %}{% for cmt in comment_list %}
+    <div class="comment_list">
+        <div class="name">{{cmt.member_id}}</div>
+        <div class="comment">{{cmt.comment_content}}</div>
+        <div class="date">{{cmt.comment_date}}</div>
+        {% if cmt.member_id == user %}
+        <form class="comment_delete" action="{% url 'board:comment_delete' cmt.id %}"><input style="width: 20px; height: 20px; padding: 0;" type="submit" class="btn red rounded" value="X"></form>
+        {% endif %}
+    </div>
+
+    {% endfor %}{% endif %}
+    <form method="POST" action="{% url 'board:comment_write' post.id %}">
+    <div class="comment_write">
+    <div>{{request.session.authUser.member_id}}</div>
+        <textarea placeholder="댓글달기" name="comment"></textarea>
+        <div><input type="submit" class="btn blue rounded" value="작성하기"></div>
+    </div>
+    </form>
+</div>
+{% endblock %}
