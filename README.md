@@ -9,10 +9,10 @@
 ## Collaborators
 |이름|역할|담당 업무|
 |------|------|------|
-|xxxx|Frontend|UI/UX 설계, 프론트엔드 개발|
-|xxxx|Backend|서버 구축, API 개발|
-|xxxx|Full Stack|데이터베이스 설계, 전체 통합|
-|xxxx|Design|UI 디자인, 사용자 테스트|
+|송수린|Frontend|UI/UX 설계, 프론트엔드 개발|
+서영|Backend|서버 구축, API 개발|
+김다은|Full Stack|데이터베이스 설계, 전체 통합|
+|전지우|Design|UI 디자인, 사용자 테스트|
 
 ## Service Architecture
 - Front Tech Stack
